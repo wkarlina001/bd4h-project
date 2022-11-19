@@ -38,9 +38,10 @@ This project is about reproducing the work published by the authors. Authors pro
 ## Getting Started
 1. First, you will need to install [git](https://git-scm.com/), if you don't have it already.
 
-2. Next, clone this repository by opening a terminal and typing the following command:
+2. Next, clone this repository and move to the directory by typing the following command in the terminal:
   ```
   git clone https://github.com/wkarlina001/bd4h-project.git
+  cd bd4h-project
   ```
 
 3. Create conda environment using environment.yml in the directory by running the following command:

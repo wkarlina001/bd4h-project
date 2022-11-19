@@ -53,7 +53,7 @@ This project is about reproducing the work published by the authors. Authors pro
 
 <!-- USAGE EXAMPLES -->
 ## Usage
-The main code of this reproducibility challenge is main.py. The script includes cleaning and preparing data as well as training models. There is also an option to train models with and without Synthetic Minority Oversampling Technique (SMOTE).
+The main code of this reproducibility challenge is main.py. The script includes cleaning and preparing data as well as training models. There is also an option to train models with and without Synthetic Minority Oversampling Technique (SMOTE). All plots/figures are saved in figure folder. The best deep neural network model is saved in model folder.
 
 To run the script, please run the following command :
   ```

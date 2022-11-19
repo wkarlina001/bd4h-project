@@ -50,9 +50,9 @@ if __name__ == '__main__':
     # for Machine Learning train/test/tune
     X_train, X_valid, Y_train, Y_valid = train_test_split(X, Y, test_size=0.3, random_state=SEED)
     dt_train_accuracy, dt_valid_accuracy = DT(X_train, X_valid, Y_train, Y_valid, SEED)
-    # rf_train_accuracy, rf_valid_accuracy = RF(X_train, X_valid, Y_train, Y_valid, SEED)
+    rf_train_accuracy, rf_valid_accuracy = RF(X_train, X_valid, Y_train, Y_valid, SEED)
     svm_train_accuracy, svm_valid_accuracy = SVM(X_train, X_valid, Y_train, Y_valid, SEED)
-    # mlp_train_accuracy, mlp_valid_accuracy = MLP(X_train, X_valid, Y_train, Y_valid, SEED)
+    mlp_train_accuracy, mlp_valid_accuracy = MLP(X_train, X_valid, Y_train, Y_valid, SEED)
 
     # For DNN 
     

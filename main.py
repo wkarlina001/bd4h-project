@@ -38,7 +38,7 @@ if __name__ == '__main__':
     # data distribution for each disease category
     plot_data_distribution(df)
 
-    # Pre Processing - clean extra characters, one hot encoding, prepare target label, filter target count < 7
+    # Pre Processing - clean extra characters, one hot encoding, prepare target label, filter target count < 6
     # Prepare data for training with/without SMOTE
     df, df_filter, df_target_count = clean_data(df)
     plot_data_correlation(df)

@@ -1,3 +1,6 @@
+<a name="readme-top"></a>
+
+<div>
 <h2 align="center">BDH Reproducibility Challenge</h3>
   <h3 align="center">
    Paper Title : Application of deep and machine learning techniques for multi-label
@@ -17,7 +20,10 @@ classification performance on psychotic disorder diseases
     <li>
       <a href="#getting-started">Getting Started</a>
     </li>
-    <li><a href="#acknowledgments">Acknowledgements</a></li>
+     <li>
+      <a href="#usage">Usage</a>
+    </li>
+    <li><a href="#acknowledgements">Acknowledgements</a></li>
   </ol>
 </details>
 
@@ -34,7 +40,7 @@ This project is about reproducing the work published by the authors. Authors pro
 
 2. Next, clone this repository by opening a terminal and typing the following command:
   ```
-  git clone (XXXX INSERT)
+  git clone https://github.com/wkarlina001/bd4h-project.git
   ```
 
 3. Create conda environment using environment.yml in the directory by running the following command:
@@ -58,11 +64,10 @@ To run the script, please run the following command :
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 <!-- ACKNOWLEDGMENTS -->
-## Acknowledgments
+## Acknowledgements
 
-* []()
-* []()
-* []()
+* I. Elujide, S.G. Fashoto, B. Fashoto, E. Mbunge, S.O. Folorunso, J.O. Olamijuwon, et al. (2021) Application of deep and machine learning techniques for multi-label classification performance on psychotic disorder diseases. Informatics Med Unlocked, 23: Article 100545. https://doi.org/10.1016/j.imu.2021.100545
+
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 

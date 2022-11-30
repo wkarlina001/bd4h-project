@@ -119,7 +119,7 @@ def plot_learning_curves(train_losses, valid_losses, train_accuracies, valid_acc
 	plt.ylabel("Loss")
 	plt.legend()
 	plt.grid(color = 'green', linestyle = '--', linewidth = 0.5)
-	plt.savefig("LossCurve.png")
+	plt.savefig("figure/LossCurve.png")
 	
 	plt.figure().clear()
 	plt.plot(train_accuracies, marker='o',label ="Training Accuracy")
@@ -132,3 +132,33 @@ def plot_learning_curves(train_losses, valid_losses, train_accuracies, valid_acc
 	plt.grid(color = 'green', linestyle = '--', linewidth = 0.5)
 	plt.savefig("figure/AccuracyCurve.png")
 
+def plot_roc(ins_pred, schiz_pred, vd_pred, adhd_pred, bp_pred):
+    plt.figure(figsize=(10, 8))
+    fpr, tpr, _ = metrics.roc_curve(Y_valid[:, 0], ins_pred)
+    auc = metrics.auc(fpr, tpr)
+    plt.plot(fpr, tpr, label="Insomnia (area = {:0.2f})".format(auc))
+    
+    fpr, tpr, _ = metrics.roc_curve(Y_valid[:, 1], schiz_pred)
+    auc = metrics.auc(fpr, tpr)
+    plt.plot(fpr, tpr, label="Schizophrenia (area = {:0.2f})".format(auc))
+    
+    fpr, tpr, _ = metrics.roc_curve(Y_valid[:, 2], vd_pred)
+    auc = metrics.auc(fpr, tpr)
+    plt.plot(fpr, tpr, label="Vascular Demetia (area = {:0.2f})".format(auc))
+    
+    fpr, tpr, _ = metrics.roc_curve(Y_valid[:, 3], adhd_pred)
+    auc = metrics.auc(fpr, tpr)
+    plt.plot(fpr, tpr, label="ADHD (area = {:0.2f})".format(auc))
+    
+    fpr, tpr, _ = metrics.roc_curve(Y_valid[:, 4], bp_pred)
+    auc = metrics.auc(fpr, tpr)
+    plt.plot(fpr, tpr, label="Bipolar (area = {:0.2f})".format(auc))
+    
+    plt.plot([0, 1], [0, 1], color = "black", linestyle='dashed')
+    
+    plt.legend()
+    plt.xlabel("False Positive Rate")
+    plt.ylabel("True Positive Rate")
+    plt.title("Receiving Operator Characteristic (ROC)")
+
+    plt.savefig("figure/roc.png")

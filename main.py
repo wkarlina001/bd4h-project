@@ -56,12 +56,17 @@ if __name__ == '__main__':
     
     # for DNN
     # X_train, X_valid, Y_train, Y_valid = dnn_clean_data(df_dnn, SEED)
-    multi_train_accuracy, multi_val_accuracy = dnn_model(X_train, X_valid, Y_train, Y_valid, SEED, True)
-    ins_train_accuracy, ins_val_accuracy = dnn_model(X_train, X_valid, Y_train, Y_valid, SEED, False, 'insomnia')
-    schiz_train_accuracy, schiz_val_accuracy = dnn_model(X_train, X_valid, Y_train, Y_valid, SEED, False, 'schizophrenia')
-    vd_train_accuracy, vd_val_accuracy = dnn_model(X_train, X_valid, Y_train, Y_valid, SEED, False, 'vascular_demetia')
-    adhd_train_accuracy, adhd_val_accuracy = dnn_model(X_train, X_valid, Y_train, Y_valid, SEED, False, 'adhd')
-    bp_train_accuracy, bp_val_accuracy = dnn_model(X_train, X_valid, Y_train, Y_valid, SEED, False, 'bipolar')
+    multi_train_accuracy, multi_val_accuracy, multi_accuracies, multi_losses, _ = dnn_model(X_train, X_valid, Y_train, Y_valid, SEED, True)
+    ins_train_accuracy, ins_val_accuracy, ins_accuracies, ins_losses, ins_pred = dnn_model(X_train, X_valid, Y_train, Y_valid, SEED, False, 'insomnia')
+    schiz_train_accuracy, schiz_val_accuracy, schiz_accuracies, schiz_losses, schiz_pred = dnn_model(X_train, X_valid, Y_train, Y_valid, SEED, False, 'schizophrenia')
+    vd_train_accuracy, vd_val_accuracy, vd_accuracies, vd_losses, vd_pred = dnn_model(X_train, X_valid, Y_train, Y_valid, SEED, False, 'vascular_demetia')
+    adhd_train_accuracy, adhd_val_accuracy, adhd_accuracies, adhd_losses, adhd_pred = dnn_model(X_train, X_valid, Y_train, Y_valid, SEED, False, 'adhd')
+    bp_train_accuracy, bp_val_accuracy, bp_accuracies, bp_losses, bp_pred = dnn_model(X_train, X_valid, Y_train, Y_valid, SEED, False, 'bipolar')
+
+    # DNN plots
+    plot_learning_curves(multi_losses[0], multi_losses[1], multi_accuracies[0], multi_accuracies[1])
+    plot_roc(ins_pred, schiz_pred, vd_pred, adhd_pred, bp_pred)
+
 
     # # for Machine Learning train/test/tune
     # X_train, X_valid, Y_train, Y_valid = train_test_split(X, Y, test_size=0.3, random_state=SEED)

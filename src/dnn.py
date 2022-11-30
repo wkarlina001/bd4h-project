@@ -8,6 +8,7 @@ from sklearn.preprocessing import OrdinalEncoder
 from sklearn.model_selection import train_test_split
 import os 
 import random
+from sklearn import metrics
 
 def set_seeds(seed=1234):
     os.environ['PYTHONHASHSEED'] = str(seed)

@@ -56,12 +56,12 @@ if __name__ == '__main__':
     
     # for DNN
     # X_train, X_valid, Y_train, Y_valid = dnn_clean_data(df_dnn, SEED)
-    multi_train_accuracy, multi_val_accuracy = dnn_model(X_train, X_valid, Y_train, Y_valid, True)
-    ins_train_accuracy, ins_val_accuracy = dnn_model(X_train, X_valid, Y_train, Y_valid, False, 'insomnia')
-    schiz_train_accuracy, schiz_val_accuracy = dnn_model(X_train, X_valid, Y_train, Y_valid, False, 'schizophrenia')
-    vd_train_accuracy, vd_val_accuracy = dnn_model(X_train, X_valid, Y_train, Y_valid, False, 'vascular_demetia')
-    adhd_train_accuracy, adhd_val_accuracy = dnn_model(X_train, X_valid, Y_train, Y_valid, False, 'adhd')
-    bp_train_accuracy, bp_val_accuracy = dnn_model(X_train, X_valid, Y_train, Y_valid, False, 'bipolar')
+    multi_train_accuracy, multi_val_accuracy = dnn_model(X_train, X_valid, Y_train, Y_valid, SEED, True)
+    ins_train_accuracy, ins_val_accuracy = dnn_model(X_train, X_valid, Y_train, Y_valid, SEED, False, 'insomnia')
+    schiz_train_accuracy, schiz_val_accuracy = dnn_model(X_train, X_valid, Y_train, Y_valid, SEED, False, 'schizophrenia')
+    vd_train_accuracy, vd_val_accuracy = dnn_model(X_train, X_valid, Y_train, Y_valid, SEED, False, 'vascular_demetia')
+    adhd_train_accuracy, adhd_val_accuracy = dnn_model(X_train, X_valid, Y_train, Y_valid, SEED, False, 'adhd')
+    bp_train_accuracy, bp_val_accuracy = dnn_model(X_train, X_valid, Y_train, Y_valid, SEED, False, 'bipolar')
 
     # # for Machine Learning train/test/tune
     # X_train, X_valid, Y_train, Y_valid = train_test_split(X, Y, test_size=0.3, random_state=SEED)

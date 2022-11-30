@@ -6,6 +6,24 @@ from tensorflow.keras.layers import Dense, Dropout
 from tensorflow import keras
 from sklearn.preprocessing import OrdinalEncoder
 from sklearn.model_selection import train_test_split
+import os 
+import random
+
+def set_seeds(seed=1234):
+    os.environ['PYTHONHASHSEED'] = str(seed)
+    random.seed(seed)
+    tf.random.set_seed(seed)
+    np.random.seed(seed)
+
+def set_global_determinism(seed=1234):
+    set_seeds(seed=seed)
+
+    os.environ['TF_DETERMINISTIC_OPS'] = '1'
+    os.environ['TF_CUDNN_DETERMINISTIC'] = '1'
+    
+    tf.config.threading.set_inter_op_parallelism_threads(1)
+    tf.config.threading.set_intra_op_parallelism_threads(1)
+
 
 def dnn_clean_data(df, random_state):
     df.drop('agecode', axis=1, inplace=True)
@@ -24,7 +42,9 @@ def dnn_clean_data(df, random_state):
 
     return X_train, X_val, y_train, y_val
 
-def dnn_model(X_train, X_val, y_train, y_val, multilabel = True, single_pred = None):
+def dnn_model(X_train, X_val, y_train, y_val, random_state, multilabel = True, single_pred = None):
+
+    set_global_determinism(random_state)
 	
     model = Sequential()
     model.add(Dense(20, input_shape=(X_train.shape[1], ), activation="relu"))

@@ -44,9 +44,9 @@ def dnn_clean_data(df, random_state):
     return X_train, X_val, y_train, y_val
 
 def dnn_model(X_train, X_val, y_train, y_val, random_state, multilabel = True, single_pred = None):
-
+    
     set_global_determinism(random_state)
-	
+    
     model = Sequential()
     model.add(Dense(20, input_shape=(X_train.shape[1], ), activation="relu"))
     model.add(Dropout(0.1))
@@ -61,9 +61,17 @@ def dnn_model(X_train, X_val, y_train, y_val, random_state, multilabel = True, s
         model.add(Dense(1, activation="sigmoid"))
     
     opt = keras.optimizers.Adam(learning_rate=0.01)
-    model.compile(optimizer=opt, loss='binary_crossentropy', metrics=['accuracy'])
+    
+    def multi_accuracy(y_true, y_pred):
+        temp = tf.math.round(y_pred) == y_true
+        temp = tf.cast(temp, tf.float32)
+        temp = tf.math.reduce_sum(temp)
+        temp = temp / tf.cast(len(y_true)*5, tf.float32)
+        return temp
     
     if multilabel:
+        model.compile(optimizer=opt, loss='binary_crossentropy', metrics=[multi_accuracy])
+        
         history = model.fit(X_train, y_train, epochs=40, validation_data=(X_val, y_val), verbose=0)
         
         pred = model.predict(X_train, verbose = 0)
@@ -71,9 +79,12 @@ def dnn_model(X_train, X_val, y_train, y_val, random_state, multilabel = True, s
         
         pred = model.predict(X_val, verbose = 0)
         val_accuracy = np.sum(np.round(pred) == y_val) / (len(y_val)*5)
-        return train_accuracy, val_accuracy
+        
+        plot_train_acc = history.history['multi_accuracy']
+        plot_val_acc = history.history['val_multi_accuracy']
         
     else:
+        model.compile(optimizer=opt, loss='binary_crossentropy', metrics=['accuracy'])
         target_dict = {'insomnia': 0, 'schizophrenia': 1, 'vascular_demetia': 2, 'adhd': 3, 'bipolar': 4}
         col = target_dict[single_pred]
         history = model.fit(X_train, y_train[:, col], epochs=40, validation_data=(X_val, y_val[:, col]), verbose = 0)
@@ -83,4 +94,8 @@ def dnn_model(X_train, X_val, y_train, y_val, random_state, multilabel = True, s
 
         pred = model.predict(X_val, verbose=0)
         val_accuracy = (np.round(pred) == y_val[:, col].reshape((-1, 1))).sum()/len(y_val)
-        return train_accuracy, val_accuracy
+        
+        plot_train_acc = history.history['accuracy']
+        plot_val_acc = history.history['val_accuracy']
+        
+    return train_accuracy, val_accuracy, (plot_train_acc, plot_val_acc), (history.history['loss'], history.history['val_loss']), pred

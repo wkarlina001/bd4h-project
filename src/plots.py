@@ -11,6 +11,7 @@ from sklearn.metrics import confusion_matrix
 from sklearn.datasets import make_classification
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestClassifier
+import sklearn.metrics as metrics
 
 def plot_data_distribution(df):
 	# visualise data count for disease
@@ -78,6 +79,7 @@ def plot_data_distribution(df):
 def plot_data_correlation(df):
 	# Figure 9 correlation
 	df_1 = df.drop(['Insominia', 'shizopherania', 'vascula_demetia', 'ADHD', 'Bipolar', 'target', 'agecode'], axis=1)
+	df_1.rename(columns={'Insominia_enc': 'Insominia', 'shizopherania_enc': 'shizopherania', 'vascula_demetia_enc':'vascula_demetia', 'ADHD_enc':'ADHD', 'Bipolar_enc':'Bipolar'}, inplace=True)
 	feature_names = df_1.columns.tolist()
 
 	corrMatrix = df_1.corr()
@@ -111,6 +113,7 @@ def plot_learning_curves(train_losses, valid_losses, train_accuracies, valid_acc
 	# TODO: You do not have to return the plots.
 	# TODO: You can save plots as files by codes here or an interactive way according to your preference.
 	# pass
+	plt.figure().clear()
 	plt.plot(train_losses, marker='o',label ="Training Loss")
 	plt.plot(valid_losses, marker='o',label ="Validation Loss")
 
@@ -132,7 +135,7 @@ def plot_learning_curves(train_losses, valid_losses, train_accuracies, valid_acc
 	plt.grid(color = 'green', linestyle = '--', linewidth = 0.5)
 	plt.savefig("figure/AccuracyCurve.png")
 
-def plot_roc(ins_pred, schiz_pred, vd_pred, adhd_pred, bp_pred):
+def plot_roc(Y_valid, ins_pred, schiz_pred, vd_pred, adhd_pred, bp_pred):	
     plt.figure(figsize=(10, 8))
     fpr, tpr, _ = metrics.roc_curve(Y_valid[:, 0], ins_pred)
     auc = metrics.auc(fpr, tpr)
@@ -161,4 +164,4 @@ def plot_roc(ins_pred, schiz_pred, vd_pred, adhd_pred, bp_pred):
     plt.ylabel("True Positive Rate")
     plt.title("Receiving Operator Characteristic (ROC)")
 
-    plt.savefig("figure/roc.png")
+    plt.savefig("figure/ROC.png")

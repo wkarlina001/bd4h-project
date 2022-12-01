@@ -24,25 +24,7 @@ def set_global_determinism(seed=1234):
     
     tf.config.threading.set_inter_op_parallelism_threads(1)
     tf.config.threading.set_intra_op_parallelism_threads(1)
-
-
-def dnn_clean_data(df, random_state):
-    df.drop('agecode', axis=1, inplace=True)
-    targets = ['Insominia', 'shizopherania', 'vascula_demetia', 'ADHD', 'Bipolar']
-    features = [x for x in df.columns if x not in targets]
-    for col in targets:
-        df[col] = df[col].str[:1].map({'P': 1, 'N': 0})
-        
-    ode = OrdinalEncoder()
-    categ_np = ode.fit_transform(df[features].drop('age', axis=1))
     
-    X = np.append(categ_np, np.array(df['age']).reshape((500, 1)), 1)
-    y = np.array(df[targets])
-    
-    X_train, X_val, y_train, y_val = train_test_split(X, y, test_size=0.3, random_state=random_state)
-
-    return X_train, X_val, y_train, y_val
-
 def dnn_model(X_train, X_val, y_train, y_val, random_state, multilabel = True, single_pred = None):
     
     set_global_determinism(random_state)
@@ -59,16 +41,18 @@ def dnn_model(X_train, X_val, y_train, y_val, random_state, multilabel = True, s
         model.add(Dense(5, activation="sigmoid"))
     else:
         model.add(Dense(1, activation="sigmoid"))
-    
+
     opt = keras.optimizers.Adam(learning_rate=0.01)
     
     def multi_accuracy(y_true, y_pred):
         temp = tf.math.round(y_pred) == y_true
         temp = tf.cast(temp, tf.float32)
         temp = tf.math.reduce_sum(temp)
-        temp = temp / tf.cast(len(y_true)*5, tf.float32)
+
+        temp = temp / tf.cast(len(y_true) *5, tf.float32)
+
         return temp
-    
+        
     if multilabel:
         model.compile(optimizer=opt, loss='binary_crossentropy', metrics=[multi_accuracy])
         

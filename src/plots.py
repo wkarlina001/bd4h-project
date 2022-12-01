@@ -7,10 +7,11 @@ import pandas as pd
 import functools as ft
 import seaborn as sn
 from sklearn.metrics import plot_confusion_matrix
-from sklearn.metrics import confusion_matrix
+from sklearn.metrics import confusion_matrix, roc_curve
 from sklearn.datasets import make_classification
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestClassifier
+from sklearn import metrics
 
 def plot_data_distribution(df):
 	# visualise data count for disease
@@ -132,25 +133,25 @@ def plot_learning_curves(train_losses, valid_losses, train_accuracies, valid_acc
 	plt.grid(color = 'green', linestyle = '--', linewidth = 0.5)
 	plt.savefig("figure/AccuracyCurve.png")
 
-def plot_roc(ins_pred, schiz_pred, vd_pred, adhd_pred, bp_pred):
+def plot_roc(ins_pred, schiz_pred, vd_pred, adhd_pred, bp_pred, y_val):
     plt.figure(figsize=(10, 8))
-    fpr, tpr, _ = metrics.roc_curve(Y_valid[:, 0], ins_pred)
+    fpr, tpr, _ = roc_curve(y_val[:, 0], ins_pred)
     auc = metrics.auc(fpr, tpr)
     plt.plot(fpr, tpr, label="Insomnia (area = {:0.2f})".format(auc))
     
-    fpr, tpr, _ = metrics.roc_curve(Y_valid[:, 1], schiz_pred)
+    fpr, tpr, _ = roc_curve(y_val[:, 1], schiz_pred)
     auc = metrics.auc(fpr, tpr)
     plt.plot(fpr, tpr, label="Schizophrenia (area = {:0.2f})".format(auc))
     
-    fpr, tpr, _ = metrics.roc_curve(Y_valid[:, 2], vd_pred)
+    fpr, tpr, _ = roc_curve(y_val[:, 2], vd_pred)
     auc = metrics.auc(fpr, tpr)
     plt.plot(fpr, tpr, label="Vascular Demetia (area = {:0.2f})".format(auc))
     
-    fpr, tpr, _ = metrics.roc_curve(Y_valid[:, 3], adhd_pred)
+    fpr, tpr, _ = roc_curve(y_val[:, 3], adhd_pred)
     auc = metrics.auc(fpr, tpr)
     plt.plot(fpr, tpr, label="ADHD (area = {:0.2f})".format(auc))
     
-    fpr, tpr, _ = metrics.roc_curve(Y_valid[:, 4], bp_pred)
+    fpr, tpr, _ = roc_curve(y_val[:, 4], bp_pred)
     auc = metrics.auc(fpr, tpr)
     plt.plot(fpr, tpr, label="Bipolar (area = {:0.2f})".format(auc))
     

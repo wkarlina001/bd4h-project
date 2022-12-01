@@ -144,7 +144,7 @@ def MLP(X_train, X_valid, Y_train, Y_valid, SEED):
     train_multi_accuracy = round((train_sum_multilabel_cm[0][0] + train_sum_multilabel_cm[1][1])/ (np.sum(train_multilabel_cm))*100, 2)
 
     print("\nMultilayer Perceptron Multi-Class Accuracy - Train Accuracy %.2f%% , Validation Accuracy %.2f%%" % (train_accuracy, valid_accuracy))
-    print("\nMultilayer Perceptron Multi-Label Accuracy - Train Accuracy %.2f%% , Validation Accuracy %.2f%%" % (train_multi_accuracy, valid_multi_accuracy))
+    print("Multilayer Perceptron Multi-Label Accuracy - Train Accuracy %.2f%% , Validation Accuracy %.2f%%" % (train_multi_accuracy, valid_multi_accuracy))
     print("Multilayer Perceptron Multi-Label Confusion Matrix\n")
     print(valid_multilabel_cm)    
 

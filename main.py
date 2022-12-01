@@ -67,6 +67,7 @@ if __name__ == '__main__':
     # DNN plots
     plot_learning_curves(multi_losses[0], multi_losses[1], multi_accuracies[0], multi_accuracies[1])
     plot_roc(Y_valid, ins_pred, schiz_pred, vd_pred, adhd_pred, bp_pred)
+    dnn_cm(X, Y, random_state=SEED)
 
     # # for Machine Learning train/test/tune
     dt_train_accuracy, dt_valid_accuracy, dt_train_multi_accuracy, dt_valid_multi_accuracy, dt_train_multilabel_cm, dt_valid_multilabel_cm = DT(X_train, X_valid, Y_train, Y_valid, SEED)

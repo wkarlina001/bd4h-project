@@ -6,12 +6,19 @@ import numpy as np
 import pandas as pd
 import functools as ft
 import seaborn as sn
+import tensorflow as tf
+from tensorflow.keras import Sequential
+from tensorflow.keras.layers import Dense, Dropout
+from tensorflow import keras
+from sklearn.preprocessing import OneHotEncoder
 from sklearn.metrics import plot_confusion_matrix
-from sklearn.metrics import confusion_matrix
+from sklearn.metrics import confusion_matrix, ConfusionMatrixDisplay
 from sklearn.datasets import make_classification
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestClassifier
 import sklearn.metrics as metrics
+
+from src.dnn import set_global_determinism
 
 def plot_data_distribution(df):
 	# visualise data count for disease
@@ -166,3 +173,33 @@ def plot_roc(Y_valid, ins_pred, schiz_pred, vd_pred, adhd_pred, bp_pred):
     plt.title("Receiving Operator Characteristic (ROC)")
 
     plt.savefig("figure/ROC.png")
+
+def dnn_cm(X, Y, random_state):
+    Y_multi = np.apply_along_axis(lambda x: ''.join(map(str, x)), 1, Y)
+    Y_multi = Y_multi.reshape((-1, 1))
+    ohe = OneHotEncoder(sparse=False)
+    Y_multi = ohe.fit_transform(Y_multi)
+    X_train, X_valid, Y_train, Y_valid = train_test_split(X, Y_multi, test_size=0.3, random_state=random_state)
+
+    set_global_determinism(1234)
+
+    model = Sequential()
+    model.add(Dense(20, input_shape=(X_train.shape[1], ), activation="relu"))
+    model.add(Dropout(0.1))
+    model.add(Dense(20, activation="relu"))
+    model.add(Dropout(0.1))
+    model.add(Dense(40, activation="relu"))
+    model.add(Dropout(0.1))
+    model.add(Dense(12, activation="softmax"))
+
+    opt = keras.optimizers.Adam(learning_rate=0.01)
+    model.compile(optimizer=opt, loss='categorical_crossentropy', metrics=['accuracy'])
+
+    history = model.fit(X_train, Y_train, epochs=40, validation_data=(X_valid, Y_valid), verbose=0)
+
+    pred = model.predict(X_valid, verbose = 0)
+    cm = confusion_matrix(Y_valid.argmax(1), pred.argmax(1))
+    disp = ConfusionMatrixDisplay(cm)
+    disp.plot()
+
+    plt.savefig("figure/dnn_cm.png")

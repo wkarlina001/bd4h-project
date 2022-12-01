@@ -78,13 +78,14 @@ def plot_data_distribution(df):
 
 def plot_data_correlation(df):
 	# Figure 9 correlation
-	df_1 = df.drop(['Insominia', 'shizopherania', 'vascula_demetia', 'ADHD', 'Bipolar', 'target', 'agecode'], axis=1)
+	df_1 = df.drop(['Insominia', 'shizopherania', 'vascula_demetia', 'ADHD', 'Bipolar', 'target'], axis=1)
 	df_1.rename(columns={'Insominia_enc': 'Insominia', 'shizopherania_enc': 'shizopherania', 'vascula_demetia_enc':'vascula_demetia', 'ADHD_enc':'ADHD', 'Bipolar_enc':'Bipolar'}, inplace=True)
 	feature_names = df_1.columns.tolist()
 
 	corrMatrix = df_1.corr()
 	fig, ax = plt.subplots(figsize=(15,15))
-	sn.heatmap(corrMatrix, annot=True, xticklabels=feature_names, yticklabels=feature_names, annot_kws={"fontsize":12.5})
+	cmap = sn.cm.rocket_r
+	sn.heatmap(corrMatrix, annot=True, cmap=cmap, xticklabels=feature_names, yticklabels=feature_names, annot_kws={"fontsize":13})
 	# plt.show()
 	plt.tight_layout()
 	plt.savefig("figure/DataCorrelation.png")

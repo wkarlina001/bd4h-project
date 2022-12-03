@@ -202,4 +202,4 @@ def dnn_cm(X, Y, random_state):
     disp = ConfusionMatrixDisplay(cm)
     disp.plot()
 
-    plt.savefig("figure/dnn_cm.png")
+    plt.savefig("figure/DNN_CM.png")
